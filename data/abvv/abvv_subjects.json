@@ -23704,7 +23704,7 @@
     {
         "degree": "blis",
         "branch": "General",
-        "semester": 20,
+        "semester": "Not Specified",
         "year": 2021,
         "subject_code": "Not Available",
         "subject_slug": "computer-application-in-libraries",
@@ -23714,7 +23714,7 @@
     {
         "degree": "blis",
         "branch": "General",
-        "semester": 19,
+        "semester": "Not Specified",
         "year": 2021,
         "subject_code": "Not Available",
         "subject_slug": "documentation-and-information-service",
@@ -23724,7 +23724,7 @@
     {
         "degree": "blis",
         "branch": "General",
-        "semester": 17,
+        "semester": "Not Specified",
         "year": 2021,
         "subject_code": "Not Available",
         "subject_slug": "library-cataloguing-and-bibliography",
@@ -23734,7 +23734,7 @@
     {
         "degree": "blis",
         "branch": "General",
-        "semester": 18,
+        "semester": "Not Specified",
         "year": 2021,
         "subject_code": "Not Available",
         "subject_slug": "reference-service-and-sources",
@@ -24213,7 +24213,7 @@
     },
     {
         "degree": "pgdbm",
-        "branch": "Human Resource Management",
+        "branch": "General",
         "semester": 1,
         "year": 2021,
         "subject_code": "4105",
@@ -24223,7 +24223,7 @@
     },
     {
         "degree": "pgdbm",
-        "branch": "Human Resource Management",
+        "branch": "General",
         "semester": 3,
         "year": 2017,
         "subject_code": "Not Available",
@@ -24233,7 +24233,7 @@
     },
     {
         "degree": "pgdbm",
-        "branch": "Management Concept and Organisational Behaviour",
+        "branch": "General",
         "semester": 1,
         "year": 2021,
         "subject_code": "4103",
@@ -24243,7 +24243,7 @@
     },
     {
         "degree": "pgdbm",
-        "branch": "Management Concepts and Organisational Behaviour",
+        "branch": "General",
         "semester": 1,
         "year": 2017,
         "subject_code": "Not Available",
@@ -24253,7 +24253,7 @@
     },
     {
         "degree": "pgdbm",
-        "branch": "Marketing Research and Consumer Behaviour",
+        "branch": "General",
         "semester": 1,
         "year": 2021,
         "subject_code": "4107",
@@ -24263,7 +24263,7 @@
     },
     {
         "degree": "pgdbm",
-        "branch": "Marketing Research and Consumer Behaviour",
+        "branch": "General",
         "semester": 5,
         "year": 2017,
         "subject_code": "Not Available",
@@ -24273,7 +24273,7 @@
     },
     {
         "degree": "pgdbm",
-        "branch": "Portfolio Management and Total Quality Management",
+        "branch": "General",
         "semester": 2,
         "year": 2020,
         "subject_code": "Not Available",
@@ -24283,7 +24283,7 @@
     },
     {
         "degree": "pgdbm",
-        "branch": "Portfolio Management and Total Quality Management",
+        "branch": "General",
         "semester": 1,
         "year": 2021,
         "subject_code": "4104",
@@ -24293,7 +24293,7 @@
     },
     {
         "degree": "pgdbm",
-        "branch": "Production and Operation Management",
+        "branch": "General",
         "semester": 1,
         "year": 2021,
         "subject_code": "4106",
@@ -24303,7 +24303,7 @@
     },
     {
         "degree": "pgdbm",
-        "branch": "Production and Operation Management",
+        "branch": "General",
         "semester": 4,
         "year": 2017,
         "subject_code": "Not Available",
@@ -24313,7 +24313,7 @@
     },
     {
         "degree": "pgdca",
-        "branch": "Data Communication and Computer Network",
+        "branch": "General",
         "semester": 1,
         "year": 2021,
         "subject_code": "1600",
@@ -24323,7 +24323,7 @@
     },
     {
         "degree": "pgdca",
-        "branch": "Data Communication and Computer Network",
+        "branch": "General",
         "semester": 3,
         "year": 2020,
         "subject_code": "Not Available",
@@ -24333,7 +24333,7 @@
     },
     {
         "degree": "pgdca",
-        "branch": "PC Packages and Computerized Accounting System",
+        "branch": "General",
         "semester": 2,
         "year": 2020,
         "subject_code": "Not Available",
@@ -24343,7 +24343,7 @@
     },
     {
         "degree": "pgdca",
-        "branch": "Programming Using C and C++",
+        "branch": "General",
         "semester": 1,
         "year": 2021,
         "subject_code": "1601",
@@ -24353,7 +24353,7 @@
     },
     {
         "degree": "pgdca",
-        "branch": "Programming Using C and C++",
+        "branch": "General",
         "semester": 4,
         "year": 2020,
         "subject_code": "Not Available",

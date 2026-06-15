@@ -39775,7 +39775,7 @@
         "fname": "blis-computer-application-in-libraries-ai-1620-2021.pdf",
         "degree": "blis",
         "branch": "General",
-        "semester": 20,
+        "semester": "Not Specified",
         "year": 2021,
         "subject_code": "Not Available",
         "subject_slug": "computer-application-in-libraries",
@@ -39786,7 +39786,7 @@
         "fname": "blis-documentation-and-information-service-ai-1619-2021.pdf",
         "degree": "blis",
         "branch": "General",
-        "semester": 19,
+        "semester": "Not Specified",
         "year": 2021,
         "subject_code": "Not Available",
         "subject_slug": "documentation-and-information-service",
@@ -39797,7 +39797,7 @@
         "fname": "blis-library-cataloguing-and-bibliography-ai-1617-2021.pdf",
         "degree": "blis",
         "branch": "General",
-        "semester": 17,
+        "semester": "Not Specified",
         "year": 2021,
         "subject_code": "Not Available",
         "subject_slug": "library-cataloguing-and-bibliography",
@@ -39808,7 +39808,7 @@
         "fname": "blis-reference-service-and-sources-ai-1618-2021.pdf",
         "degree": "blis",
         "branch": "General",
-        "semester": 18,
+        "semester": "Not Specified",
         "year": 2021,
         "subject_code": "Not Available",
         "subject_slug": "reference-service-and-sources",
@@ -41369,7 +41369,7 @@
     {
         "fname": "pgdbm-human-resource-management-ai-4105-2021.pdf",
         "degree": "pgdbm",
-        "branch": "Human Resource Management",
+        "branch": "General",
         "semester": 1,
         "year": 2021,
         "subject_code": "4105",
@@ -41380,7 +41380,7 @@
     {
         "fname": "pgdbm-human-resource-management-p3-2017.pdf",
         "degree": "pgdbm",
-        "branch": "Human Resource Management",
+        "branch": "General",
         "semester": 3,
         "year": 2017,
         "subject_code": "Not Available",
@@ -41391,7 +41391,7 @@
     {
         "fname": "pgdbm-human-resource-management-p3-ah-4105-2020.pdf",
         "degree": "pgdbm",
-        "branch": "Human Resource Management",
+        "branch": "General",
         "semester": 3,
         "year": 2020,
         "subject_code": "Not Available",
@@ -41402,7 +41402,7 @@
     {
         "fname": "pgdbm-management-concept-and-organisational-behaviour-ai-4103-2021.pdf",
         "degree": "pgdbm",
-        "branch": "Management Concept and Organisational Behaviour",
+        "branch": "General",
         "semester": 1,
         "year": 2021,
         "subject_code": "4103",
@@ -41413,7 +41413,7 @@
     {
         "fname": "pgdbm-management-concepts-and-organisational-behaviour-p1-2017.pdf",
         "degree": "pgdbm",
-        "branch": "Management Concepts and Organisational Behaviour",
+        "branch": "General",
         "semester": 1,
         "year": 2017,
         "subject_code": "Not Available",
@@ -41424,7 +41424,7 @@
     {
         "fname": "pgdbm-marketing-research-and-consumer-behaviour-ai-4107-2021.pdf",
         "degree": "pgdbm",
-        "branch": "Marketing Research and Consumer Behaviour",
+        "branch": "General",
         "semester": 1,
         "year": 2021,
         "subject_code": "4107",
@@ -41435,7 +41435,7 @@
     {
         "fname": "pgdbm-marketing-research-and-consumer-behaviour-p5-2017.pdf",
         "degree": "pgdbm",
-        "branch": "Marketing Research and Consumer Behaviour",
+        "branch": "General",
         "semester": 5,
         "year": 2017,
         "subject_code": "Not Available",
@@ -41446,7 +41446,7 @@
     {
         "fname": "pgdbm-marketing-research-and-consumer-behaviour-p5-ah-4107-2020.pdf",
         "degree": "pgdbm",
-        "branch": "Marketing Research and Consumer Behaviour",
+        "branch": "General",
         "semester": 5,
         "year": 2020,
         "subject_code": "Not Available",
@@ -41457,7 +41457,7 @@
     {
         "fname": "pgdbm-p2-portfolio-management-and-total-quality-management-ah-4104-2020.pdf",
         "degree": "pgdbm",
-        "branch": "Portfolio Management and Total Quality Management",
+        "branch": "General",
         "semester": 2,
         "year": 2020,
         "subject_code": "Not Available",
@@ -41468,7 +41468,7 @@
     {
         "fname": "pgdbm-portfolio-management-and-total-quality-management-ai-4104-2021.pdf",
         "degree": "pgdbm",
-        "branch": "Portfolio Management and Total Quality Management",
+        "branch": "General",
         "semester": 1,
         "year": 2021,
         "subject_code": "4104",
@@ -41479,7 +41479,7 @@
     {
         "fname": "pgdbm-portfolio-management-and-total-quality-management-p2-2017.pdf",
         "degree": "pgdbm",
-        "branch": "Portfolio Management and Total Quality Management",
+        "branch": "General",
         "semester": 2,
         "year": 2017,
         "subject_code": "Not Available",
@@ -41490,7 +41490,7 @@
     {
         "fname": "pgdbm-production-and-operation-management-ai-4106-2021.pdf",
         "degree": "pgdbm",
-        "branch": "Production and Operation Management",
+        "branch": "General",
         "semester": 1,
         "year": 2021,
         "subject_code": "4106",
@@ -41501,7 +41501,7 @@
     {
         "fname": "pgdbm-production-and-operation-management-p4-2017.pdf",
         "degree": "pgdbm",
-        "branch": "Production and Operation Management",
+        "branch": "General",
         "semester": 4,
         "year": 2017,
         "subject_code": "Not Available",
@@ -41512,7 +41512,7 @@
     {
         "fname": "pgdbm-production-and-operation-management-p4-ah-4106-2020.pdf",
         "degree": "pgdbm",
-        "branch": "Production and Operation Management",
+        "branch": "General",
         "semester": 4,
         "year": 2020,
         "subject_code": "Not Available",
@@ -41523,7 +41523,7 @@
     {
         "fname": "pgdca-data-communication-and-computer-network-ai-1600-2021.pdf",
         "degree": "pgdca",
-        "branch": "Data Communication and Computer Network",
+        "branch": "General",
         "semester": 1,
         "year": 2021,
         "subject_code": "1600",
@@ -41534,7 +41534,7 @@
     {
         "fname": "pgdca-data-communication-and-computer-network-p3-ah-1600-2020.pdf",
         "degree": "pgdca",
-        "branch": "Data Communication and Computer Network",
+        "branch": "General",
         "semester": 3,
         "year": 2020,
         "subject_code": "Not Available",
@@ -41545,7 +41545,7 @@
     {
         "fname": "pgdca-pc-packages-and-computerized-accounting-system-p2-ah-1599-2020.pdf",
         "degree": "pgdca",
-        "branch": "PC Packages and Computerized Accounting System",
+        "branch": "General",
         "semester": 2,
         "year": 2020,
         "subject_code": "Not Available",
@@ -41556,7 +41556,7 @@
     {
         "fname": "pgdca-programming-using-c-and-cpp-ai-1601-2021.pdf",
         "degree": "pgdca",
-        "branch": "Programming Using C and C++",
+        "branch": "General",
         "semester": 1,
         "year": 2021,
         "subject_code": "1601",
@@ -41567,7 +41567,7 @@
     {
         "fname": "pgdca-programming-using-c-and-cpp-p4-ah-1601-2020.pdf",
         "degree": "pgdca",
-        "branch": "Programming Using C and C++",
+        "branch": "General",
         "semester": 4,
         "year": 2020,
         "subject_code": "Not Available",
