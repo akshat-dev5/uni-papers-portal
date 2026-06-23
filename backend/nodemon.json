@@ -1,0 +1,14 @@
+{
+  "watch": [
+    "server.js",
+    "routes",
+    "controllers",
+    "services",
+    "utils"
+  ],
+  "ignore": [
+    "python/**",
+    "*.db",
+    "*.log"
+  ]
+}

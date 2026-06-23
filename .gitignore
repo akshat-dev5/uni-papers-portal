@@ -18,3 +18,36 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Node
+node_modules/
+
+# Frontend build
+frontend/dist/
+frontend/dist-ssr/
+
+# Python
+backend/python/venv/
+backend/python/__pycache__/
+*.pyc
+
+# Pipeline outputs
+backend/python/decomposed_docs/
+backend/python/final_outputs/
+backend/python/input_pdfs/
+backend/python/error_pdfs/
+
+# Logs
+*.log
+
+# Database
+*.db
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example

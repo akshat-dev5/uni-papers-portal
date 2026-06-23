@@ -1,0 +1,35 @@
+{
+  "active_profile": "gtu",
+  "university_profiles": {
+    "default": {
+      "top_margin_percent": 0.04,
+      "bottom_margin_percent": 0.04,
+      "left_margin_percent": 0.00,
+      "right_margin_percent": 0.00
+    },
+    "rgpv": {
+      "top_margin_percent": 0.02,
+      "bottom_margin_percent": 0.08,
+      "left_margin_percent": 0.00,
+      "right_margin_percent": 0.00
+    },
+   "gtu": {
+      "top_margin_percent": 0.04,
+      "bottom_margin_percent": 0.03,
+      "left_margin_percent": 0.00,
+      "right_margin_percent": 0.00
+    },
+    "aktu": {
+      "top_margin_percent": 0.05,
+      "bottom_margin_percent": 0.06,
+      "left_margin_percent": 0.06,
+      "right_margin_percent": 0.00
+    },
+    "anna": {
+      "top_margin_percent": 0.00,
+      "bottom_margin_percent": 0.04,
+      "left_margin_percent": 0.00,
+      "right_margin_percent": 0.00
+    }
+  }
+}
