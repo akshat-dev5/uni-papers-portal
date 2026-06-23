@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import filterRoutes from './routes/filterRoutes.js';
 import paperRoutes from './routes/paperRoutes.js';
+import solutionRoutes from './routes/solutionRoutes.js';
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(express.json());
 
 app.use('/api/filters', filterRoutes);
 app.use('/api/papers', paperRoutes);
+app.use('/api/solution', solutionRoutes);
 
 app.get('/', (req, res) => {
     res.status(200).json({
