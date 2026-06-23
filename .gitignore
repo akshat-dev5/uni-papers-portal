@@ -3,6 +3,8 @@ frontend/dist/
 
 backend/node_modules/
 backend/dist/
+backend/temp/
+backend/ai_pipeline/__pycache__/
 
 .env
 .env.local
