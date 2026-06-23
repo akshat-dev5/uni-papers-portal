@@ -15,8 +15,8 @@ export const startGenerationPipeline = (pdfUrl, solutionId) => {
         const tempDirPath = path.resolve(__dirname, '..', 'temp');
         
         console.log(`[Pipeline] Starting 3-Agent generation for ${solutionId}`);
-        // Use the Python executable from the virtual environment where dependencies are installed
-        const pythonExecutable = 'D:\\MUQP_Internship\\ocr_env\\Scripts\\python.exe';
+        // Use the Python executable from the environment variable or fallback to global python
+        const pythonExecutable = process.env.PYTHON_PATH || 'python';
         
         const pythonProcess = spawn(pythonExecutable, [
             pythonScriptPath,
