@@ -2,8 +2,7 @@ import argparse
 import json
 import os
 import subprocess
-import tempfile
-import urllib.request
+import requests  
 from config import INPUT_DIR
 from pdf_processor import pdf_to_images
 from llm_client import get_llm_client, extract_text_from_image
@@ -27,16 +26,29 @@ def generate_markdown(final_output, output_md_path):
 def process_pdf_url(pdf_url, solution_id, temp_dir):
     print(f"Downloading PDF from: {pdf_url}")
     
+    # Ensure all required directories exist before processing
     output_dir = os.path.join(temp_dir, "generated-solutions")
+    images_dir = os.path.join(temp_dir, "images")
     os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(images_dir, exist_ok=True)
     
-    # Download the PDF
+    # Download the PDF with User-Agent headers to bypass 403 Forbidden
     pdf_path = os.path.join(temp_dir, f"{solution_id}.pdf")
     try:
-        urllib.request.urlretrieve(pdf_url, pdf_path)
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
+        # Added timeout to prevent script from hanging indefinitely
+        response = requests.get(pdf_url, headers=headers, timeout=30)
+        response.raise_for_status()  # Check for HTTP errors like 403 or 404
+        
+        with open(pdf_path, 'wb') as f:
+            f.write(response.content)
+        print("PDF downloaded successfully.")
+            
     except Exception as e:
         print(f"ERROR: Failed to download PDF: {e}")
-        return
+        return  # Exit gracefully if download fails
         
     print("Converting PDF to images...")
     images = pdf_to_images(pdf_path)
@@ -48,13 +60,13 @@ def process_pdf_url(pdf_url, solution_id, temp_dir):
     for i, image in enumerate(images):
         print(f"Extracting page {i+1}/{len(images)}...")
         raw_text = extract_text_from_image(image, client)
-        images_dir = os.path.join(temp_dir, "images")
         page_data = structure_output(raw_text, f"{solution_id}.pdf", i+1, image, images_dir)
         pages_output.append(page_data)
     
     final_output = combine_pages(pages_output)
     
     # 3-Agent Pipeline starts here
+    print("Starting 3-Agent Pipeline for generating answers...")
     final_output = generate_answers_for_paper(final_output)
     
     temp_json_path = os.path.join(temp_dir, f"{solution_id}.json")
@@ -83,5 +95,8 @@ if __name__ == "__main__":
     parser.add_argument("--temp_dir", required=True, help="Directory to store intermediate and final files")
     
     args = parser.parse_args()
+    
+    # Create temp directory if it doesn't exist
+    os.makedirs(args.temp_dir, exist_ok=True)
     
     process_pdf_url(args.url, args.id, args.temp_dir)

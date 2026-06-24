@@ -8,8 +8,9 @@ export const generateSolution = async (req, res) => {
     }
 
     const solutionId = `sol_${Date.now()}`;
+    const io = req.app.get('io');
     
-    startGenerationPipeline(pdfUrl, solutionId).catch(err => {
+    startGenerationPipeline(pdfUrl, solutionId, io).catch(err => {
         console.error(`[Pipeline Error] ${err.message}`);
     });
 

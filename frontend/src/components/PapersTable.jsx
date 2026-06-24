@@ -1,8 +1,8 @@
 import React from 'react';
-import { Download, FileText } from 'lucide-react';
+import { Download, BrainCircuit, FileText } from 'lucide-react';
 
-const PapersTable = ({ papers, loading }) => {
-  // Agar API data fetch kar rahi hai
+// Yahan humne onGenerateSolution prop add kiya hai
+const PapersTable = ({ papers, loading, onGenerateSolution }) => {
   if (loading) {
     return (
       <div className="h-64 flex items-center justify-center text-slate-500 bg-white border border-slate-200 rounded-lg shadow-sm">
@@ -14,7 +14,6 @@ const PapersTable = ({ papers, loading }) => {
     );
   }
 
-  // Agar filters lagane ke baad koi paper nahi mila
   if (!papers || papers.length === 0) {
     return (
       <div className="h-64 flex flex-col items-center justify-center text-slate-500 bg-white border border-slate-200 rounded-lg shadow-sm">
@@ -25,7 +24,6 @@ const PapersTable = ({ papers, loading }) => {
     );
   }
 
-  // Actual Table
   return (
     <div className="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden">
       <div className="overflow-x-auto">
@@ -53,7 +51,6 @@ const PapersTable = ({ papers, loading }) => {
                 <td className="px-5 py-3.5 text-center">{paper.year}</td>
                 <td className="px-5 py-3.5 text-center uppercase">{paper.exam_month}</td>
                 <td className="px-5 py-3.5 flex items-center justify-end gap-4">
-                  {/* Download Question Paper Button */}
                   <a 
                     href={paper.url} 
                     target="_blank" 
@@ -63,13 +60,13 @@ const PapersTable = ({ papers, loading }) => {
                     <Download className="w-4 h-4" /> Download
                   </a>
                   
-                  {/* Download Solution Placeholder */}
+                  {/* Updated AI Solution Button */}
                   <button 
-                    onClick={() => alert('Solution module coming soon! Future teams will integrate this.')}
-                    className="text-slate-400 hover:text-slate-600 font-medium flex items-center gap-1.5 cursor-not-allowed"
-                    title="Solution coming soon"
+                    onClick={() => onGenerateSolution(paper.url)}
+                    className="text-purple-600 hover:text-purple-800 font-medium flex items-center gap-1.5 transition-colors"
+                    title="Generate Solution using AI"
                   >
-                    <FileText className="w-4 h-4" /> Solution
+                    <BrainCircuit className="w-4 h-4" /> Solution
                   </button>
                 </td>
               </tr>
