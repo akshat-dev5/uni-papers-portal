@@ -3,13 +3,29 @@ frontend/dist/
 
 backend/node_modules/
 backend/dist/
+backend/temp/
+backend/ai_pipeline/__pycache__/
 
+# Python Virtual Environments
+ocr_env/
+venv/
+.venv/
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment Files
 .env
 .env.local
 .env.production
 
+# IDE
 .vscode/settings.json
 
+# OS Files
 .DS_Store
 
 # Logs
