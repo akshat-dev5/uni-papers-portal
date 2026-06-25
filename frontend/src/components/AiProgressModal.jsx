@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { X, CheckCircle2, Loader2, Sparkles, BrainCircuit } from 'lucide-react';
 import SoftAurora from './background/SoftAurora';
 
-const AiProgressModal = ({ isOpen, onClose, logs }) => {
+// NEW: Added modalType prop
+const AiProgressModal = ({ isOpen, onClose, logs, modalType }) => {
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -13,11 +14,21 @@ const AiProgressModal = ({ isOpen, onClose, logs }) => {
 
   if (!isOpen) return null;
 
+  // NEW: Clean logic for identifying flow
+  const isWatermarkFlow = modalType === 'watermark';
+  const modalTitle = isWatermarkFlow ? "AI Watermark Remover" : "AI Solution Generator";
+
   const translateLog = (rawLog) => {
     if (!rawLog) return null;
     
     if (rawLog.includes("Initiating connection")) return "Waking up AI agents & establishing secure connection...";
-    if (rawLog.includes("Downloading PDF")) return "Fetching the question paper securely...";
+    if (rawLog.includes("Downloading PDF")) return "Fetching the document securely...";
+    
+    if (rawLog.includes("Watermark_Init")) return "Initializing Watermark Removal Engine...";
+    if (rawLog.includes("Watermark_Detect")) return "AI Vision is scanning and isolating watermarks...";
+    if (rawLog.includes("Watermark_Restore")) return "Restoring document clarity and removing artifacts...";
+    if (rawLog.includes("Watermark_Complete")) return "Final clean document reconstructed successfully!";
+    
     if (rawLog.includes("Converting PDF to images")) return "Preparing document for AI vision analysis...";
     if (rawLog.includes("Extracting page")) {
       const match = rawLog.match(/page (\d+)\/(\d+)/);
@@ -35,15 +46,26 @@ const AiProgressModal = ({ isOpen, onClose, logs }) => {
     if (rawLog.includes("Answer generation complete")) return "All questions successfully answered and verified!";
     if (rawLog.includes("Converting Markdown to Word")) return "Formatting all verified answers into a Word document...";
     if (rawLog.includes("Word document saved")) return "Final document generated successfully!";
+    
     if (rawLog.includes("Successfully finished")) return "Process complete! Preparing your download...";
-    if (rawLog.includes("ERROR") || rawLog.includes("Traceback")) return "We encountered a slight issue. Retrying...";
+    if (rawLog.includes("ERROR") || rawLog.includes("Traceback") || rawLog.includes("failed")) return "We encountered a slight issue. Retrying...";
 
-    // CRITICAL: If it doesn't match anything above, completely hide it!
     return null; 
   };
 
   const calculateProgress = () => {
     const text = logs.join(" ");
+    
+    if (isWatermarkFlow) {
+      if (text.includes("Successfully finished")) return 100;
+      if (text.includes("Watermark_Complete")) return 90;
+      if (text.includes("Watermark_Restore")) return 70;
+      if (text.includes("Watermark_Detect")) return 40;
+      if (text.includes("Watermark_Init")) return 20;
+      if (text.includes("Downloading PDF")) return 10;
+      return 5;
+    }
+
     if (text.includes("Successfully finished")) return 100;
     if (text.includes("Converting Markdown")) return 95;
     if (text.includes("Answer generation complete")) return 90;
@@ -75,7 +97,7 @@ const AiProgressModal = ({ isOpen, onClose, logs }) => {
                 <Sparkles className="w-7 h-7 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-slate-800 tracking-tight">AI Solution Generator</h2>
+                <h2 className="text-xl font-bold text-slate-800 tracking-tight">{modalTitle}</h2>
                 <p className="text-sm font-medium text-indigo-600 flex items-center gap-2 mt-0.5">
                   <Loader2 className="w-4 h-4 animate-spin" /> Live Processing
                 </p>

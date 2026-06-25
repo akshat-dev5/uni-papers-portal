@@ -1,8 +1,7 @@
 import React from 'react';
-import { Download, BrainCircuit, FileText } from 'lucide-react';
+import { Download, BrainCircuit, FileText, Sparkles } from 'lucide-react';
 
-// Yahan humne onGenerateSolution prop add kiya hai
-const PapersTable = ({ papers, loading, onGenerateSolution }) => {
+const PapersTable = ({ papers, loading, onGenerateSolution, onCleanWatermark }) => {
   if (loading) {
     return (
       <div className="h-64 flex items-center justify-center text-slate-500 bg-white border border-slate-200 rounded-lg shadow-sm">
@@ -50,24 +49,37 @@ const PapersTable = ({ papers, loading, onGenerateSolution }) => {
                 <td className="px-5 py-3.5">{paper.subject_code}</td>
                 <td className="px-5 py-3.5 text-center">{paper.year}</td>
                 <td className="px-5 py-3.5 text-center uppercase">{paper.exam_month}</td>
-                <td className="px-5 py-3.5 flex items-center justify-end gap-4">
+                <td className="px-5 py-3.5 flex items-center justify-end gap-5">
+                  
+                  {/* Download Original */}
                   <a 
                     href={paper.url} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1.5 transition-colors"
+                    className="text-slate-500 hover:text-blue-600 font-medium flex items-center gap-1.5 transition-colors"
+                    title="Download Original"
                   >
-                    <Download className="w-4 h-4" /> Download
+                    <Download className="w-4 h-4" />
                   </a>
                   
-                  {/* Updated AI Solution Button */}
+                  {/* NEW: Watermark Removal Button */}
+                  <button 
+                    onClick={() => onCleanWatermark(paper.url)}
+                    className="text-emerald-600 hover:text-emerald-800 font-medium flex items-center gap-1.5 transition-colors"
+                    title="Remove Watermark"
+                  >
+                    <Sparkles className="w-4 h-4" /> Clean PDF
+                  </button>
+
+                  {/* AI Solution Button */}
                   <button 
                     onClick={() => onGenerateSolution(paper.url)}
-                    className="text-purple-600 hover:text-purple-800 font-medium flex items-center gap-1.5 transition-colors"
+                    className="text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1.5 transition-colors"
                     title="Generate Solution using AI"
                   >
                     <BrainCircuit className="w-4 h-4" /> Solution
                   </button>
+
                 </td>
               </tr>
             ))}

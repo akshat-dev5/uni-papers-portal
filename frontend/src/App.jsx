@@ -6,7 +6,6 @@ import PapersTable from './components/PapersTable';
 import AiProgressModal from './components/AiProgressModal';
 import { getPapers } from './services/api';
 
-// Initialize socket outside component to prevent multiple instances
 const socket = io('http://localhost:5000', { autoConnect: false });
 
 function App() {
@@ -17,8 +16,8 @@ function App() {
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
   const [aiLogs, setAiLogs] = useState([]);
   const [aiStep, setAiStep] = useState('');
+  const [modalType, setModalType] = useState('solution'); // NEW: Tracks which flow is running
 
-  // Connect socket when app loads
   useEffect(() => {
     socket.connect();
     return () => {
@@ -39,13 +38,16 @@ function App() {
     }
   }, []);
 
+  // ----------------------------------------------------
+  // FLOW 1: AI SOLUTION GENERATION
+  // ----------------------------------------------------
   const handleGenerateSolution = async (pdfUrl) => {
+    setModalType('solution'); // Set modal type
     setIsAiModalOpen(true);
-    setAiLogs(["Initiating connection to AI server..."]);
+    setAiLogs(["Initiating connection..."]);
     setAiStep("Starting Pipeline");
 
     try {
-      // 1. Call Backend to start generation
       const response = await fetch('http://localhost:5000/api/solution/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -54,39 +56,23 @@ function App() {
       const data = await response.json();
       const solutionId = data.solutionId;
 
-      // 2. Join the specific Socket Room for this task
       socket.emit('join-solution-room', solutionId);
 
-      // 3. Listen for Real-Time Logs
       socket.on('pipeline-log', (data) => {
         setAiLogs(prev => [...prev, data.log]);
-        // Update bottom step text (truncate if too long)
         setAiStep(data.log.length > 40 ? data.log.substring(0, 40) + "..." : data.log);
       });
 
-      // 4. Listen for Success
       socket.on('pipeline-complete', (data) => {
-        setAiLogs(prev => [
-          ...prev, 
-          "✅ Verification Complete!", 
-          "Triggering document download..."
-        ]);
+        setAiLogs(prev => [...prev, "✅ Verification Complete!", "Successfully finished"]);
         setAiStep("Download Complete!");
-
-        // Trigger file download
+        
+        // Force Download Hack
         window.location.href = `http://localhost:5000/api/solution/download/${solutionId}`;
-
-        // Cleanup and close modal after 3 seconds
-        setTimeout(() => {
-          setIsAiModalOpen(false);
-          setAiLogs([]);
-          socket.off('pipeline-log');
-          socket.off('pipeline-complete');
-          socket.off('pipeline-error');
-        }, 3000);
+        
+        setTimeout(() => handleCloseModal(), 3000);
       });
 
-      // 5. Listen for Errors
       socket.on('pipeline-error', (data) => {
         setAiLogs(prev => [...prev, `❌ ERROR: Process failed with code ${data.code}`]);
         setAiStep("Failed");
@@ -98,10 +84,78 @@ function App() {
     }
   };
 
+  // ----------------------------------------------------
+  // FLOW 2: WATERMARK REMOVAL 
+  // ----------------------------------------------------
+// FLOW 2: WATERMARK REMOVAL (BULLETPROOF DOWNLOAD)
+  // ----------------------------------------------------
+  const handleCleanWatermark = async (pdfUrl) => {
+    setModalType('watermark');
+    setIsAiModalOpen(true);
+    setAiLogs([]);
+    setAiStep("Starting Watermark Pipeline");
+
+    // Simulated logs for UI engagement
+    const simulatedLogs = [
+      "Initiating connection...",
+      "Downloading PDF...",
+      "Watermark_Init",
+      "Watermark_Detect",
+      "Watermark_Restore"
+    ];
+
+    let currentLogIndex = 0;
+    const logInterval = setInterval(() => {
+      if (currentLogIndex < simulatedLogs.length) {
+        setAiLogs(prev => [...prev, simulatedLogs[currentLogIndex]]);
+        currentLogIndex++;
+      }
+    }, 8000); 
+
+    try {
+      const response = await fetch('http://localhost:5000/api/watermark/remove', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pdfUrl })
+      });
+      
+      const data = await response.json();
+      clearInterval(logInterval);
+      
+      if (data.status === "success" && data.downloadUrl) {
+        setAiLogs(prev => [...prev, "Watermark_Complete", "Successfully finished"]);
+        setAiStep("Download Complete!");
+        
+        // --- BULLETPROOF BLOB DOWNLOAD FIX ---
+        const fileUrl = `http://localhost:5000${data.downloadUrl}`;
+        const fileResponse = await fetch(fileUrl);
+        const blob = await fileResponse.blob(); // Convert to binary data
+        const blobUrl = window.URL.createObjectURL(blob); // Create browser-safe URL
+        
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = 'Cleaned_Question_Paper.pdf'; // Name of file
+        document.body.appendChild(a);
+        a.click(); // Trigger click
+        document.body.removeChild(a); // Cleanup
+        window.URL.revokeObjectURL(blobUrl);
+        // --------------------------------------
+        
+        setTimeout(() => handleCloseModal(), 2000);
+      } else {
+        setAiLogs(prev => [...prev, "❌ ERROR: Document cleanup failed."]);
+        setAiStep("Failed");
+      }
+    } catch (error) {
+      clearInterval(logInterval);
+      setAiLogs(prev => [...prev, "❌ ERROR: Failed to connect to Server."]);
+      setAiStep("Failed");
+    }
+  };
+
   const handleCloseModal = () => {
     setIsAiModalOpen(false);
     setAiLogs([]);
-    // Remove listeners if user forces close
     socket.off('pipeline-log');
     socket.off('pipeline-complete');
     socket.off('pipeline-error');
@@ -135,6 +189,7 @@ function App() {
               papers={papers} 
               loading={loading} 
               onGenerateSolution={handleGenerateSolution} 
+              onCleanWatermark={handleCleanWatermark} 
             />
           </div>
         </div>
@@ -144,7 +199,8 @@ function App() {
         isOpen={isAiModalOpen} 
         onClose={handleCloseModal} 
         logs={aiLogs} 
-        currentStep={aiStep} 
+        currentStep={aiStep}
+        modalType={modalType} // Passing the type explicitly
       />
     </div>
   );
