@@ -62,7 +62,7 @@ def process_pdf_url(pdf_url, solution_id, temp_dir):
         raw_text = extract_text_from_image(image, client)
         page_data = structure_output(raw_text, f"{solution_id}.pdf", i+1, image, images_dir)
         pages_output.append(page_data)
-    
+        
     final_output = combine_pages(pages_output)
     
     # 3-Agent Pipeline starts here
