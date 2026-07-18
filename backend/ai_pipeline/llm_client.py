@@ -11,8 +11,14 @@ def get_llm_client():
         raise ValueError(f"Unsupported LLM provider: {LLM_PROVIDER}")
 
 def image_to_base64(image):
+    max_dimension = 1024
+    if max(image.size) > max_dimension:
+        ratio = max_dimension / max(image.size)
+        new_size = (int(image.size[0] * ratio), int(image.size[1] * ratio))
+        image = image.resize(new_size, Image.Resampling.LANCZOS)
+        
     buffer = io.BytesIO()
-    image.save(buffer, format="JPEG")
+    image.save(buffer, format="JPEG", quality=85)
     return base64.b64encode(buffer.getvalue()).decode("utf-8")
 
 def extract_text_from_image(image, client):
@@ -71,7 +77,7 @@ If a diagram exists at this position write exactly:
                         ]
                     }
                 ],
-                max_tokens=8192
+                max_tokens=2048
             )
             
             content = response.choices[0].message.content
