@@ -3,13 +3,15 @@ import time
 from groq import RateLimitError
 from student_agent import get_active_client, rotate_key
 
-def review_answer(question_text: str, student_answer: str, marks: int) -> dict:
+def review_answer(question_text: str, student_answer: str, marks: int, subject: str = "") -> dict:
     """
     Acts as a strict professor reviewing the student's answer.
     Returns a dict: {"score": int, "approved": bool, "feedback": str}
     """
-    prompt = f"""You are a strict university professor grading an engineering exam.
-You demand precision, correct formulas, and appropriate depth for the marks awarded.
+    subject_label = subject if subject else "university"
+    
+    prompt = f"""You are a strict university professor grading a {subject_label} exam.
+You demand precision, correct concepts, and appropriate depth for the marks awarded.
 
 QUESTION ({marks} marks):
 {question_text}
@@ -18,9 +20,9 @@ STUDENT ANSWER:
 {student_answer}
 
 EVALUATION CRITERIA:
-1. Is it technically correct?
-2. Is the depth sufficient for {marks} marks?
-3. Is it clearly structured?
+1. Is it factually and conceptually correct?
+2. Is the depth sufficient for {marks} marks? (If it is an MCQ, the answer should be very concise).
+3. Is it clearly structured and written entirely in ENGLISH?
 
 Respond ONLY with a valid JSON object in this exact format, with no markdown formatting or extra text:
 {{

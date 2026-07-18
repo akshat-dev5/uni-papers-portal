@@ -28,3 +28,12 @@ export const getYearsAndMonths = (university) =>
 
 export const getPapers = (params) =>
     API.get('/papers', { params });
+
+export const generateSolution = (pdfUrl) =>
+    API.post('/solution/generate', { pdfUrl });
+
+export const verifySolution = (solutionId) =>
+    API.post('/solution/verify', { solutionId });
+
+export const getSolutionDownloadUrl = (solutionId) =>
+    `${API_BASE_URL}/solution/download/${solutionId}`;
