@@ -30,13 +30,16 @@ def process_pdf_url(pdf_url, solution_id, temp_dir):
     output_dir = os.path.join(temp_dir, "generated-solutions")
     os.makedirs(output_dir, exist_ok=True)
     
-    # Download the PDF
+    # Download the PDF with a User-Agent to prevent 403 Forbidden
     pdf_path = os.path.join(temp_dir, f"{solution_id}.pdf")
     try:
-        urllib.request.urlretrieve(pdf_url, pdf_path)
+        req = urllib.request.Request(pdf_url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'})
+        with urllib.request.urlopen(req) as response, open(pdf_path, 'wb') as out_file:
+            out_file.write(response.read())
     except Exception as e:
         print(f"ERROR: Failed to download PDF: {e}")
-        return
+        import sys
+        sys.exit(1)
         
     print("Converting PDF to images...")
     images = pdf_to_images(pdf_path)
@@ -51,7 +54,7 @@ def process_pdf_url(pdf_url, solution_id, temp_dir):
         images_dir = os.path.join(temp_dir, "images")
         page_data = structure_output(raw_text, f"{solution_id}.pdf", i+1, image, images_dir)
         pages_output.append(page_data)
-    
+        
     final_output = combine_pages(pages_output)
     
     # 3-Agent Pipeline starts here

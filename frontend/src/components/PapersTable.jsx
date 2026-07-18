@@ -1,7 +1,38 @@
-import React from 'react';
-import { Download, FileText } from 'lucide-react';
+import React, { useState } from 'react';
+import { Download, FileText, Loader2, CheckCircle } from 'lucide-react';
+import { generateSolution, verifySolution, getSolutionDownloadUrl } from '../services/api';
 
 const PapersTable = ({ papers, loading }) => {
+  const [solutionState, setSolutionState] = useState({});
+
+  const handleGenerateSolution = async (paperUrl) => {
+    try {
+      setSolutionState(prev => ({ ...prev, [paperUrl]: { status: 'generating' } }));
+      
+      const response = await generateSolution(paperUrl);
+      const { solutionId } = response.data;
+      
+      setSolutionState(prev => ({ ...prev, [paperUrl]: { status: 'generating', solutionId } }));
+
+      // Start polling every 10 seconds
+      const intervalId = setInterval(async () => {
+        try {
+          const verifyRes = await verifySolution(solutionId);
+          if (verifyRes.data.approved) {
+            clearInterval(intervalId);
+            setSolutionState(prev => ({ ...prev, [paperUrl]: { status: 'done', solutionId } }));
+          }
+        } catch (error) {
+          console.error("Verification error", error);
+        }
+      }, 10000); 
+
+    } catch (error) {
+      console.error("Generation error", error);
+      setSolutionState(prev => ({ ...prev, [paperUrl]: { status: 'error' } }));
+      alert("Failed to generate solution. Please try again.");
+    }
+  };
   // Agar API data fetch kar rahi hai
   if (loading) {
     return (
@@ -63,14 +94,28 @@ const PapersTable = ({ papers, loading }) => {
                     <Download className="w-4 h-4" /> Download
                   </a>
                   
-                  {/* Download Solution Placeholder */}
-                  <button 
-                    onClick={() => alert('Solution module coming soon! Future teams will integrate this.')}
-                    className="text-slate-400 hover:text-slate-600 font-medium flex items-center gap-1.5 cursor-not-allowed"
-                    title="Solution coming soon"
-                  >
-                    <FileText className="w-4 h-4" /> Solution
-                  </button>
+                  {/* Download Solution Button */}
+                  {solutionState[paper.url]?.status === 'generating' ? (
+                    <button className="text-blue-500 font-medium flex items-center gap-1.5 cursor-wait">
+                      <Loader2 className="w-4 h-4 animate-spin" /> Generating...
+                    </button>
+                  ) : solutionState[paper.url]?.status === 'done' ? (
+                    <a 
+                      href={getSolutionDownloadUrl(solutionState[paper.url].solutionId)}
+                      className="text-green-600 hover:text-green-800 font-medium flex items-center gap-1.5 transition-colors"
+                      download
+                    >
+                      <CheckCircle className="w-4 h-4" /> Solution Ready
+                    </a>
+                  ) : (
+                    <button 
+                      onClick={() => handleGenerateSolution(paper.url)}
+                      className="text-slate-600 hover:text-blue-600 font-medium flex items-center gap-1.5 transition-colors"
+                      title="Generate AI Solution"
+                    >
+                      <FileText className="w-4 h-4" /> AI Solution
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

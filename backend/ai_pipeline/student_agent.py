@@ -119,10 +119,17 @@ FULL EXAM QUESTION CONTEXT:
     if sub_part_text:
         prompt += f"\nYOUR TASK: Answer ONLY this specific sub-part:\n{sub_part_text}\n"
 
+    is_mcq = bool(re.search(r'\([a-d]\)\s', question_text)) or bool(re.search(r'\([A-D]\)\s', question_text))
+
+    if is_mcq:
+        depth = "This is a multiple choice question. Simply state the correct option and provide a 1-sentence explanation."
+        word_guide = "10-20 words"
+
     prompt += f"""
 ANSWER REQUIREMENTS:
 - Depth: {depth}
 - Approximate length: {word_guide}
+- Language: IMPORTANT! You MUST write your final answer entirely in ENGLISH, even if the original question is in Hindi or another language.
 - Format: Choose whichever best fits this question:
     • Numbered steps for algorithms, procedures, or derivations
     • Bullet points for lists of properties, features, or advantages
@@ -289,6 +296,15 @@ def split_into_subparts(block_lines: list) -> tuple[str, list]:
     if current_sub:
         sub_questions.append("\n".join(current_sub).strip())
         
+    is_mcq = False
+    if sub_questions:
+        avg_len = sum(len(sq.split()) for sq in sub_questions) / len(sub_questions)
+        if avg_len < 10 or (len(sub_questions) >= 4 and avg_len < 15):
+            is_mcq = True
+            
+    if is_mcq:
+        return "\n".join(block_lines).strip(), []
+        
     return "\n".join(parent_lines).strip(), sub_questions
 
 
@@ -358,7 +374,7 @@ def generate_answers_for_paper(extracted_data: dict) -> dict:
                             break
                         
                         # 3. PROFESSOR PHASE
-                        review = review_answer(full_question_text, answer, marks)
+                        review = review_answer(full_question_text, answer, marks, subject)
                         print(f"    -> [Professor Review] Score: {review['score']}/100. Approved: {review['approved']}")
                         if review['approved']:
                             break
@@ -393,7 +409,7 @@ def generate_answers_for_paper(extracted_data: dict) -> dict:
                                 break
                             
                             # 3. PROFESSOR PHASE
-                            review = review_answer(sub_q, answer, sub_marks)
+                            review = review_answer(sub_q, answer, sub_marks, subject)
                             print(f"    -> [Professor Review] Score: {review['score']}/100. Approved: {review['approved']}")
                             if review['approved']:
                                 break
