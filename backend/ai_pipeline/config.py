@@ -4,7 +4,9 @@ from dotenv import load_dotenv
 env_path = os.path.join(os.path.dirname(__file__), '..', '.env')
 load_dotenv(dotenv_path=env_path)
 
-LLM_PROVIDER = "groq"
+VISION_PROVIDER = os.getenv("VISION_PROVIDER", "gemini")
+TEXT_PROVIDER = os.getenv("TEXT_PROVIDER", "groq")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 GROQ_API_KEY = os.getenv("ocr_api_key") or os.getenv("GROQ_API_KEY")
 
 GROQ_ANSWER_API_KEYS = []

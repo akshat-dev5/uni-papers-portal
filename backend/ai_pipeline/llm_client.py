@@ -1,14 +1,20 @@
 import base64
 import io
-from config import GROQ_API_KEY, LLM_PROVIDER
+from config import GROQ_API_KEY, VISION_PROVIDER, GEMINI_API_KEY
 from groq import Groq
 from PIL import Image
 
 def get_llm_client():
-    if LLM_PROVIDER == "groq":
+    if VISION_PROVIDER == "gemini":
+        import google.generativeai as genai
+        if not GEMINI_API_KEY:
+            raise ValueError("No GEMINI_API_KEY found in config or .env")
+        genai.configure(api_key=GEMINI_API_KEY)
+        return genai.GenerativeModel("gemini-flash-latest")
+    elif VISION_PROVIDER == "groq":
         return Groq(api_key=GROQ_API_KEY)
     else:
-        raise ValueError(f"Unsupported LLM provider: {LLM_PROVIDER}")
+        raise ValueError(f"Unsupported VISION_PROVIDER: {VISION_PROVIDER}")
 
 def image_to_base64(image):
     max_dimension = 1024
@@ -54,15 +60,31 @@ If a diagram exists at this position write exactly:
 ## Confidence Score
 [number]%"""
 
-    image_data = image_to_base64(image)
-    
     import time
+    
+    if VISION_PROVIDER == "gemini":
+        from google.api_core.exceptions import InvalidArgument, PermissionDenied, NotFound
+        for attempt in range(6):
+            try:
+                response = client.generate_content([prompt, image])
+                return response.text
+            except (InvalidArgument, PermissionDenied, NotFound) as e:
+                return f"[OCR Failed: API Key Invalid, Permission Denied, or Model Not Found. {e}]"
+            except Exception as e:
+                wait = (2 ** attempt) * 10
+                print(f"  [Gemini API Error] Waiting {wait}s before retry {attempt+1}/6... {e}")
+                time.sleep(wait)
+        return "[OCR Failed: Retries exhausted on Gemini]"
+
+    # Groq Fallback
+    image_data = image_to_base64(image)
     from groq import RateLimitError
+    model_name = "meta-llama/llama-4-scout-17b-16e-instruct"
     
     for attempt in range(6):
         try:
             response = client.chat.completions.create(
-                model="meta-llama/llama-4-scout-17b-16e-instruct",
+                model=model_name,
                 messages=[
                     {
                         "role": "user",
