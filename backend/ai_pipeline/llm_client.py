@@ -10,7 +10,7 @@ def get_llm_client():
         if not GEMINI_API_KEY:
             raise ValueError("No GEMINI_API_KEY found in config or .env")
         genai.configure(api_key=GEMINI_API_KEY)
-        return genai.GenerativeModel("gemini-flash-latest")
+        return genai.GenerativeModel("gemini-flash-lite-latest")
     elif VISION_PROVIDER == "groq":
         return Groq(api_key=GROQ_API_KEY)
     else:
